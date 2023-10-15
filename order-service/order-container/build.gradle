@@ -1,0 +1,11 @@
+plugins {
+    id 'java-spring-boot-convention'
+}
+
+dependencies {
+    implementation project(':order-service:order-application')
+    implementation project(':order-service:order-domain:order-domain-application')
+    implementation project(':order-service:order-domain:order-domain')
+    implementation project(':order-service:order-dataaccess')
+    implementation project(':order-service:order-message')
+}

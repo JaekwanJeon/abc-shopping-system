@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+def resolveArchivesBaseName(Project project) {
+    if (project.parent == rootProject) {
+        return project.name
+    }
+    return "${resolveArchivesBaseName(project.parent)}-${project.name}"
+}
+
+archivesBaseName = resolveArchivesBaseName(project)
+group = 'com.abc.shopping'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+dependencies {
+    'org.springframework.boot:spring-boot-dependencies:3.1.1'.with {
+        implementation platform(it)
+        annotationProcessor platform(it)
+        testAnnotationProcessor platform(it)
+    }
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+//    implementation platform('org.springframework.cloud:spring-cloud-gateway-dependencies:4.0.6')
+
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.assertj:assertj-core'
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
