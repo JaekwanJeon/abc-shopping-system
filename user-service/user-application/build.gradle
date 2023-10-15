@@ -1,0 +1,17 @@
+plugins {
+    id 'java-spring-boot-convention'
+}
+
+dependencies {
+    implementation project(':user-service:user-domain:user-domain-application')
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+}
+
+jar {
+    enabled = true
+}
+
+bootJar {
+    enabled = false
+}

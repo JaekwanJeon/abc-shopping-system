@@ -31,6 +31,13 @@
             <option value="$PROJECT_DIR$/order-service/order-domain/order-domain" />
             <option value="$PROJECT_DIR$/order-service/order-domain/order-domain-application" />
             <option value="$PROJECT_DIR$/order-service/order-message" />
+            <option value="$PROJECT_DIR$/user-service" />
+            <option value="$PROJECT_DIR$/user-service/user-application" />
+            <option value="$PROJECT_DIR$/user-service/user-container" />
+            <option value="$PROJECT_DIR$/user-service/user-dataaccess" />
+            <option value="$PROJECT_DIR$/user-service/user-domain" />
+            <option value="$PROJECT_DIR$/user-service/user-domain/user-domain" />
+            <option value="$PROJECT_DIR$/user-service/user-domain/user-domain-application" />
           </set>
         </option>
       </GradleProjectSettings>

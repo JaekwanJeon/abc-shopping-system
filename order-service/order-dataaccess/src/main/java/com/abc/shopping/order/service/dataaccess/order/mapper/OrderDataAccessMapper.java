@@ -4,7 +4,6 @@ import com.abc.shopping.domain.valueobject.*;
 import com.abc.shopping.order.service.dataaccess.order.entity.OrderAddressEntity;
 import com.abc.shopping.order.service.dataaccess.order.entity.OrderEntity;
 import com.abc.shopping.order.service.dataaccess.order.entity.OrderItemEntity;
-import com.abc.shopping.order.service.domain.application.dto.create.OrderItem;
 import com.abc.shopping.order.service.domain.entity.Order;
 import com.abc.shopping.order.service.domain.entity.OrderItemDomain;
 import com.abc.shopping.order.service.domain.entity.Product;
@@ -45,7 +44,7 @@ public class OrderDataAccessMapper {
     public Order orderEntityToOrder(OrderEntity orderEntity) {
         return Order.builder()
                 .orderId(new OrderId(orderEntity.getId()))
-                .customerId(new CustomerId(orderEntity.getCustomerId()))
+                .customerId(new UserId(orderEntity.getCustomerId()))
                 .deliveryId(new DeliveryId(orderEntity.getDeliveryId()))
                 .deliveryAddress(addressEntityToDeliveryAddress(orderEntity.getAddress()))
                 .price(new Money(orderEntity.getPrice()))

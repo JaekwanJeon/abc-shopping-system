@@ -2,8 +2,8 @@ package com.abc.shopping.domain.valueobject;
 
 import java.util.UUID;
 
-public class CustomerId extends BaseId<UUID> {
-    public CustomerId(UUID value) {
+public class UserId extends BaseId<UUID> {
+    public UserId(UUID value) {
         super(value);
     }
 }

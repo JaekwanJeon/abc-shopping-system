@@ -1,0 +1,10 @@
+plugins {
+    id 'java-spring-boot-convention'
+}
+
+dependencies {
+    implementation project(':user-service:user-application')
+    implementation project(':user-service:user-domain:user-domain-application')
+    implementation project(':user-service:user-domain:user-domain')
+    implementation project(':user-service:user-dataaccess')
+}

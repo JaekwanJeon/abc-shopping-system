@@ -1,0 +1,17 @@
+plugins {
+    id 'java-spring-boot-convention'
+}
+
+dependencies {
+    implementation project(':user-service:user-domain:user-domain')
+    implementation project(':common:common-domain')
+    implementation 'org.springframework:spring-tx';
+}
+
+jar {
+    enabled = true
+}
+
+bootJar {
+    enabled = false
+}

@@ -1,6 +1,6 @@
 package com.abc.shopping.order.service.domain.application.mapper;
 
-import com.abc.shopping.domain.valueobject.CustomerId;
+import com.abc.shopping.domain.valueobject.UserId;
 import com.abc.shopping.domain.valueobject.DeliveryId;
 import com.abc.shopping.domain.valueobject.Money;
 import com.abc.shopping.domain.valueobject.ProductId;
@@ -34,7 +34,7 @@ public class OrderDataMapper {
     
     public Order createOrderCommandToOrder(CreateOrderCommand createOrderCommand) {
         return Order.builder()
-                .customerId(new CustomerId(createOrderCommand.getCustomerId()))
+                .customerId(new UserId(createOrderCommand.getCustomerId()))
                 .deliveryId(new DeliveryId(createOrderCommand.getRestaurantId()))
                 .deliveryAddress(orderAddressToStreetAddress(createOrderCommand.getAddress()))
                 .price(new Money(createOrderCommand.getPrice()))

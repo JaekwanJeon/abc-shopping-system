@@ -2,14 +2,14 @@ package com.abc.shopping.order.service.domain.entity;
 
 
 import com.abc.shopping.domain.entity.AggregateRoot;
-import com.abc.shopping.domain.valueobject.CustomerId;
+import com.abc.shopping.domain.valueobject.UserId;
 
-public class Customer extends AggregateRoot<CustomerId> {
+public class Customer extends AggregateRoot<UserId> {
     public Customer() {
     }
 
-    public Customer(CustomerId customerId) {
-        super.setId(customerId);
+    public Customer(UserId userId) {
+        super.setId(userId);
     }
 
 }

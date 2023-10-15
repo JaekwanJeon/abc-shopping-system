@@ -8,5 +8,10 @@ include 'order-service:order-domain'
 include 'order-service:order-message'
 include 'order-service:order-domain:order-domain-application'
 include 'order-service:order-domain:order-domain'
-
+include 'user-service:user-container'
+include 'user-service:user-application'
+include 'user-service:user-dataaccess'
+include 'user-service:user-domain'
+include 'user-service:user-domain:user-domain-application'
+include 'user-service:user-domain:user-domain'
 
