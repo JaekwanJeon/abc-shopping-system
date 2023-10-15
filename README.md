@@ -1,5 +1,8 @@
 # abc-shopping-system
 
+![image](https://github.com/JaekwanJeon/abc-shopping-system/assets/3446997/9253a8f0-bf39-4e26-b7a8-16bd7e0b7780)
+
+
 ## 1. Database 설정
 
 ### user service
