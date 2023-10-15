@@ -2,7 +2,7 @@
 
 ## 1. Database 설정
 
-### user Service
+### user service
 ```
 create schema "user"
 create table "user".users
@@ -22,7 +22,7 @@ values
         (gen_random_uuid(), '김철수', '01045345678', '서울시 강동구'),
         (gen_random_uuid(), '김삼성', '01056645678', '서울시 강서구');
 ```
-### product Service
+### product service
 ```
 create schema product;
 create table product.product
