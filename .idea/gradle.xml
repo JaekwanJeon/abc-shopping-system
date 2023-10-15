@@ -31,6 +31,13 @@
             <option value="$PROJECT_DIR$/order-service/order-domain/order-domain" />
             <option value="$PROJECT_DIR$/order-service/order-domain/order-domain-application" />
             <option value="$PROJECT_DIR$/order-service/order-message" />
+            <option value="$PROJECT_DIR$/product-service" />
+            <option value="$PROJECT_DIR$/product-service/product-application" />
+            <option value="$PROJECT_DIR$/product-service/product-container" />
+            <option value="$PROJECT_DIR$/product-service/product-dataaccess" />
+            <option value="$PROJECT_DIR$/product-service/product-domain" />
+            <option value="$PROJECT_DIR$/product-service/product-domain/product-domain" />
+            <option value="$PROJECT_DIR$/product-service/product-domain/product-domain-application" />
             <option value="$PROJECT_DIR$/user-service" />
             <option value="$PROJECT_DIR$/user-service/user-application" />
             <option value="$PROJECT_DIR$/user-service/user-container" />
