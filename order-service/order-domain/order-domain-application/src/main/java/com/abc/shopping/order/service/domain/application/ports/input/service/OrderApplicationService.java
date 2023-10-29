@@ -5,10 +5,11 @@ import com.abc.shopping.order.service.domain.application.dto.create.CreateOrderR
 import com.abc.shopping.order.service.domain.application.dto.track.TrackOrderQuery;
 import com.abc.shopping.order.service.domain.application.dto.track.TrackOrderResponse;
 import jakarta.validation.Valid;
+import reactor.core.publisher.Mono;
 
 public interface OrderApplicationService {
 
-    CreateOrderResponse createOrder(@Valid CreateOrderCommand createOrderCommand);
+    Mono<CreateOrderResponse> createOrder(@Valid CreateOrderCommand createOrderCommand);
 
     TrackOrderResponse trackOrder(@Valid TrackOrderQuery trackOrderQuery);
 }

@@ -19,9 +19,9 @@ import static com.abc.shopping.domain.constants.Common.UTC;
 public class OrderDomainServiceImpl implements OrderDomainService {
 
     @Override
-    public OrderCreatedEvent validateAndInitiateOrder(Order order, Delivery delivery) {
-        validateDelivery(delivery);
-        setOrderProductInformation(order, delivery);
+    public OrderCreatedEvent validateAndInitiateOrder(Order order) {
+        //validateDelivery(delivery);
+        //setOrderProductInformation(order, delivery);
         order.validateOrder();
         order.initializeOrder();
         log.info("Order with id: {} is initiated", order.getId().getValue());

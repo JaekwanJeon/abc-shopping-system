@@ -1,0 +1,2 @@
+com.abc.shopping.order.service.dataaccess.config.properties.UserPropertiesAutoConfiguration
+com.abc.shopping.order.service.dataaccess.config.properties.UserReactiveServiceAutoConfiguration

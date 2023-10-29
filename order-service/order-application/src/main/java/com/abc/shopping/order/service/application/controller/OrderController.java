@@ -6,8 +6,12 @@ import com.abc.shopping.order.service.domain.application.dto.track.TrackOrderQue
 import com.abc.shopping.order.service.domain.application.dto.track.TrackOrderResponse;
 import com.abc.shopping.order.service.domain.application.ports.input.service.OrderApplicationService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClientRequestException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
@@ -23,12 +27,13 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateOrderResponse> createOrder(@RequestBody CreateOrderCommand createOrderCommand) {
-        log.info("Creating order for customer: {} at restaurant: {}", createOrderCommand.getCustomerId(),
+    public Mono<ResponseEntity<CreateOrderResponse>> createOrder(@RequestBody CreateOrderCommand createOrderCommand) {
+        log.info("Creating order for customer: {} at restaurant: {}", createOrderCommand.getUserId(),
                 createOrderCommand.getRestaurantId());
-        CreateOrderResponse createOrderResponse = orderApplicationService.createOrder(createOrderCommand);
-        log.info("Order created with tracking id: {}", createOrderResponse.getOrderTrackingId());
-        return ResponseEntity.ok(createOrderResponse);
+        return orderApplicationService.createOrder(createOrderCommand).map(ResponseEntity::ok)
+                .onErrorReturn(WebClientResponseException.class, ResponseEntity.badRequest().build())
+                .onErrorReturn(WebClientRequestException.class, ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build());
+//        log.info("Order created with tracking id: {}", createOrderResponse.getOrderTrackingId());
     }
 
     @GetMapping("/{trackingId}")

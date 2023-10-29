@@ -1,5 +1,6 @@
 package com.abc.shopping.user.service.domain.application.mapper;
 
+import com.abc.shopping.user.service.domain.application.dto.get.UserDto;
 import com.abc.shopping.user.service.domain.application.dto.get.UserResponse;
 import com.abc.shopping.user.service.domain.entity.User;
 import org.springframework.stereotype.Component;
@@ -12,8 +13,13 @@ import java.util.stream.Collectors;
 public class UserDataMapper {
 
     public UserResponse userToUserResponse(User user) {
+
         return UserResponse.builder()
-                .user(user)
+                .userDto(UserDto.builder()
+                        .id(user.getId().getValue().toString())
+                        .userName(user.getUserName())
+                        .phoneNumber(user.getPhoneNumber())
+                        .address(user.getAddress()).build())
                 .build();
     }
 

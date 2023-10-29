@@ -1,6 +1,6 @@
-package com.abc.shopping.order.service.dataaccess.customer.repository;
+package com.abc.shopping.order.service.dataaccess.user.repository;
 
-import com.abc.shopping.order.service.dataaccess.customer.entity.CustomerEntity;
+import com.abc.shopping.order.service.dataaccess.user.entity.CustomerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

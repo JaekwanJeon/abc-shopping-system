@@ -33,7 +33,7 @@ public class Order extends AggregateRoot<OrderId> {
     public void validateOrder() {
         validateInitialOrder();
         validateTotalPrice();
-        validateItemsPrice();
+       // validateItemsPrice();
     }
 
     public void pay() {

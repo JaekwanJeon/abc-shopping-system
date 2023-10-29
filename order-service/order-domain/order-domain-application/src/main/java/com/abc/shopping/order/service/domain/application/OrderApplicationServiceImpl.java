@@ -10,6 +10,7 @@ import com.abc.shopping.order.service.domain.application.ports.input.service.Ord
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Validated
@@ -27,7 +28,7 @@ class OrderApplicationServiceImpl implements OrderApplicationService {
     }
 
     @Override
-    public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
+    public Mono<CreateOrderResponse> createOrder(CreateOrderCommand createOrderCommand) {
         return orderCreateCommandHandler.createOrder(createOrderCommand);
     }
 

@@ -1,4 +1,4 @@
-package com.abc.shopping.order.service.dataaccess.customer.entity;
+package com.abc.shopping.order.service.dataaccess.user.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

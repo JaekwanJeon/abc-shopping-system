@@ -22,7 +22,9 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> getUser(@PathVariable UUID userId) {
 
+        log.info("getUser : " + userId);
         UserResponse userResponse = userApplicationService.getUser(userId);
+        log.info("getUser : " + userResponse.getFailureMessages());
         return ResponseEntity.ok(userResponse);
     }
 }

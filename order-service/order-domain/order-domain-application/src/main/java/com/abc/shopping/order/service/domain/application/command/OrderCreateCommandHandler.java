@@ -8,6 +8,7 @@ import com.abc.shopping.order.service.domain.event.OrderCreatedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
 import java.util.UUID;
 
@@ -32,11 +33,14 @@ public class OrderCreateCommandHandler {
     }
 
     @Transactional
-    public CreateOrderResponse createOrder(CreateOrderCommand createOrderCommand) {
-        OrderCreatedEvent orderCreatedEvent = orderCreateHelper.persistOrder(createOrderCommand);
-        log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());
-        CreateOrderResponse createOrderResponse = orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(),
-                "Order created successfully");
+    public Mono<CreateOrderResponse> createOrder(CreateOrderCommand createOrderCommand) {
+        return orderCreateHelper.persistOrder(createOrderCommand).log()
+                .map(event->orderDataMapper.orderToCreateOrderResponse(
+                    event.getOrder(), "Order created successfully")
+        );
+//        log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());
+//        CreateOrderResponse createOrderResponse = orderDataMapper.orderToCreateOrderResponse(orderCreatedEvent.getOrder(),
+//                "Order created successfully");
 
 //        paymentOutboxHelper.savePaymentOutboxMessage(orderDataMapper
 //                .orderCreatedEventToOrderPaymentEventPayload(orderCreatedEvent),
@@ -45,8 +49,8 @@ public class OrderCreateCommandHandler {
 //                OutboxStatus.STARTED,
 //                UUID.randomUUID());
 
-        log.info("Returning CreateOrderResponse with order id: {}", orderCreatedEvent.getOrder().getId());
-
-        return createOrderResponse;
+//        log.info("Returning CreateOrderResponse with order id: {}", orderCreatedEvent.getOrder().getId());
+//
+//        return createOrderResponse;
     }
 }

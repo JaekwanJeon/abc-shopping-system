@@ -11,6 +11,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class UserResponse {
-    private final User user;
+    private final UserDto userDto;
     private final List<String> failureMessages;
 }
