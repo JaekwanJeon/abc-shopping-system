@@ -81,7 +81,36 @@ GET http://localhost:8088/product/8cecc491-f942-41fb-a144-d3b020a12689
   "failureMessages": null
 }
 ```
+### order service
+```
+POST http://localhost:8081/orders
+Content-Type: application/json
 
+{
+  "userId": "999fa683-765b-4fd2-8ef9-9a95c231e549",
+  "restaurantId": "d215b5f8-0249-4dc5-89a3-51fd148cfb45",
+  "address": {
+    "street": "street_1",
+    "postalCode": "1000AB",
+    "city": "Amsterdam"
+  },
+  "price": 200.00,
+  "items": [
+    {
+      "productId": "d215b5f8-0249-4dc5-89a3-51fd148cfb48",
+      "quantity": 1,
+      "price": 50.00,
+      "subTotal": 50.0
+    },
+    {
+      "productId": "d215b5f8-0249-4dc5-89a3-51fd148cfb48",
+      "quantity": 3,
+      "price": 50.00,
+      "subTotal": 150.0
+    }
+  ]
+}
+```
 
 
 
