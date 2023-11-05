@@ -77,7 +77,8 @@ GET http://localhost:8088/product/8cecc491-f942-41fb-a144-d3b020a12689
     "name": "맛동산",
     "company": "해태",
     "description": "땅콩으로 버무린 튀김과자",
-    "quantity": 100
+    "quantity": 100,
+    "price": 1000
   },
   "failureMessages": null
 }
