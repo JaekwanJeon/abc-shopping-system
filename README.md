@@ -49,6 +49,22 @@ values
         (gen_random_uuid(), '초코파이', '오리온', '초코와 마시멜로의 조화', 100, 500),
         (gen_random_uuid(), '갤럭시 S23', '삼성', '삼성의 23년도 플래그쉽 폰', 100, 1000000);
 ```
+### order service
+```
+create schema order;
+create table orders
+(
+    id               uuid                 not null
+        primary key,
+    customer_id      uuid                 not null,
+    delivery_id      uuid                 not null,
+    tracking_id      uuid                 not null,
+    price            numeric(10, 2)       not null,
+    order_status     "order".order_status not null,
+    failure_messages varchar
+);
+
+```
 
 ## 2. 서버 테스트
 ### user service
