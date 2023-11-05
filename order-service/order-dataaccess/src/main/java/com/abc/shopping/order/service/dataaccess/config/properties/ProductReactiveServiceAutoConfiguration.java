@@ -1,6 +1,8 @@
 package com.abc.shopping.order.service.dataaccess.config.properties;
 
+import com.abc.shopping.order.service.dataaccess.client.adapter.ProductReactiveClientImpl;
 import com.abc.shopping.order.service.dataaccess.client.adapter.UserReactiveClientImpl;
+import com.abc.shopping.order.service.domain.application.ports.output.repository.ProductReactiveClient;
 import com.abc.shopping.order.service.domain.application.ports.output.repository.UserReactiveClient;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -11,18 +13,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @AutoConfigureAfter(WebClientAutoConfiguration.class)
-class UserReactiveServiceAutoConfiguration {
+class ProductReactiveServiceAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    UserReactiveClient userReactiveClient(
+    ProductReactiveClient productReactiveClient(
             final WebClient.Builder webClientBuilder,
-            final UserServiceProperties userServiceProperties) {
+            final ProductServiceProperties productServiceProperties) {
         final var webClient =
                 webClientBuilder
-                        .baseUrl(userServiceProperties.apiUpstreamEntrypoint())
+                        .baseUrl(productServiceProperties.apiUpstreamEntrypoint())
                         .build();
 
-        return new UserReactiveClientImpl(webClient);
+        return new ProductReactiveClientImpl(webClient);
     }
 }

@@ -1,1 +1,5 @@
 GET http://localhost:8088/product/8cecc491-f942-41fb-a144-d3b020a12689
+
+###
+
+GET http://localhost:8088/product?params=8cecc491-f942-41fb-a144-d3b020a12689, cfd43ef2-6d84-4336-89ca-5f4e25127322, 18c54219-2c6d-4ab9-a770-ec600d26193c

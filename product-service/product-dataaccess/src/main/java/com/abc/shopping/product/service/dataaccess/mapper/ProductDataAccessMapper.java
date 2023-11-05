@@ -16,6 +16,7 @@ public class ProductDataAccessMapper {
                 .company(product.getCompany())
                 .quantity(product.getQuantity())
                 .description(product.getDescription())
+                .price(product.getPrice())
                 .build();
 
     }
@@ -27,6 +28,7 @@ public class ProductDataAccessMapper {
                 .company(productEntity.getCompany())
                 .description(productEntity.getDescription())
                 .quantity(productEntity.getQuantity())
+                .price(productEntity.getPrice())
                 .build();
     }
 

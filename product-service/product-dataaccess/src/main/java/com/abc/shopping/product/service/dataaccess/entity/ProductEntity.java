@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "product")
-@Entity
+@Entity(name = "product")
 public class ProductEntity {
     @Id
     UUID id;
@@ -23,6 +23,7 @@ public class ProductEntity {
     private String company;
     private String description;
     private Long quantity;
+    private Long price;
 
     @Override
     public boolean equals(Object o) {
@@ -34,6 +35,6 @@ public class ProductEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, company, description, quantity);
+        return Objects.hash(id, name, company, description, quantity, price);
     }
 }

@@ -1,11 +1,13 @@
 package com.abc.shopping.product.service.application.controller;
 
 import com.abc.shopping.product.service.domain.application.dto.get.ProductResponse;
+import com.abc.shopping.product.service.domain.application.dto.get.ProductsResponse;
 import com.abc.shopping.product.service.domain.application.ports.input.service.ProductApplicationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -25,4 +27,12 @@ public class ProductController {
         ProductResponse productResponse = productApplicationService.getProduct(productId);
         return ResponseEntity.ok(productResponse);
     }
+
+    @GetMapping
+    public ResponseEntity<ProductsResponse> getproducts(@RequestParam(value="params", required=true) List<UUID> productIds) {
+
+        ProductsResponse productsResponse = productApplicationService.getProducts(productIds);
+        return ResponseEntity.ok(productsResponse);
+    }
+
 }

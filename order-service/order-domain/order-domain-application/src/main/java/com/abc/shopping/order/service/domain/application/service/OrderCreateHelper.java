@@ -3,7 +3,9 @@ package com.abc.shopping.order.service.domain.application.service;
 import com.abc.shopping.order.service.domain.OrderDomainService;
 import com.abc.shopping.order.service.domain.application.dto.create.CreateOrderCommand;
 import com.abc.shopping.order.service.domain.application.dto.create.CreateOrderRequestContext;
+import com.abc.shopping.order.service.domain.application.dto.create.OrderItem;
 import com.abc.shopping.order.service.domain.application.mapper.OrderDataMapper;
+import com.abc.shopping.order.service.domain.application.ports.output.repository.ProductReactiveClient;
 import com.abc.shopping.order.service.domain.application.ports.output.repository.UserReactiveClient;
 import com.abc.shopping.order.service.domain.application.ports.output.repository.DeliveryRepository;
 import com.abc.shopping.order.service.domain.application.ports.output.repository.OrderRepository;
@@ -15,12 +17,14 @@ import com.abc.shopping.order.service.domain.exception.OrderDomainException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 
 import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,6 +40,8 @@ public class OrderCreateHelper {
 
     private final UserReactiveClient userReactiveClient;
 
+    private final ProductReactiveClient productReactiveClient;
+
     private final DeliveryRepository deliveryRepository;
 
     private final OrderDataMapper orderDataMapper;
@@ -44,22 +50,26 @@ public class OrderCreateHelper {
                              OrderRepository orderRepository,
                              UserReactiveClient userReactiveClient,
                              DeliveryRepository deliveryRepository,
-                             OrderDataMapper orderDataMapper) {
+                             OrderDataMapper orderDataMapper,
+                             ProductReactiveClient productReactiveClient) {
         this.orderDomainService = orderDomainService;
         this.orderRepository = orderRepository;
         this.userReactiveClient = userReactiveClient;
         this.deliveryRepository = deliveryRepository;
         this.orderDataMapper = orderDataMapper;
+        this.productReactiveClient = productReactiveClient;
     }
 
     @Transactional
     public Mono<OrderCreatedEvent> persistOrder(CreateOrderCommand createOrderCommand) {
+
         return Mono.just(createOrderCommand).map(CreateOrderRequestContext::new)
                 .log()
                 .flatMap(this::checkCustomer)
+                .flatMap(this::checkProduct)
                 .log()
                 .doOnNext(rc->rc.setOrder(orderDataMapper.createOrderCommandToOrder(createOrderCommand)))
-                .map(rc->orderDomainService.validateAndInitiateOrder(rc.getOrder()))
+                .map(rc->orderDomainService.validateAndInitiateOrder(rc.getOrder(), rc.getProductList().stream().map(orderDataMapper::productDtoToProduct).toList()))
                 .doOnNext(rc->saveOrder(rc.getOrder()));
 //        checkCustomer(createOrderCommand.getUserId());
 //        Delivery delivery = checkDelivery(createOrderCommand);
@@ -69,6 +79,7 @@ public class OrderCreateHelper {
 //        log.info("Order is created with id: {}", orderCreatedEvent.getOrder().getId().getValue());
 //        return orderCreatedEvent;
     }
+
 
     private Delivery checkDelivery(CreateOrderCommand createOrderCommand) {
         Delivery delivery = orderDataMapper.createOrderCommandToDelivery(createOrderCommand);
@@ -83,11 +94,22 @@ public class OrderCreateHelper {
 
     private Mono<CreateOrderRequestContext> checkCustomer(CreateOrderRequestContext rc) {
         return userReactiveClient.findUser(rc.getCreateOrderCommand().getUserId())
-                .log(">>>>>>>>>")
                 .log()
                 .doOnNext(rc::setUser)
                 .thenReturn(rc);
     }
+
+    private Mono<CreateOrderRequestContext> checkProduct(CreateOrderRequestContext rc) {
+
+        List<UUID> productIds = rc.getCreateOrderCommand().getItems().stream().map(i->i.getProductId()).toList();
+        return productReactiveClient.findProducts(productIds).collectList()
+                .log()
+                .map(i->{
+                    rc.setProductList(i);
+                    return rc;
+                });
+    }
+
 
     private Order saveOrder(Order order) {
         Order orderResult = orderRepository.save(order);

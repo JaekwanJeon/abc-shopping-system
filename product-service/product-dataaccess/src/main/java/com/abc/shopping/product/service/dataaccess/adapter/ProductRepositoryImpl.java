@@ -7,7 +7,9 @@ import com.abc.shopping.product.service.domain.application.ports.output.reposito
 import com.abc.shopping.product.service.domain.entity.Product;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 public class ProductRepositoryImpl implements ProductRepository {
@@ -26,9 +28,9 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .map(productDataAccessMapper::productEntityToProduct);
     }
 
-//    @Override
-//    public Optional<User> getUser(UserId userId) {
-//        return userJpaRepository.findById(userId.getValue())
-//                .map(userDataAccessMapper::userEntityTouser);
-//    }
+    @Override
+    public List<Product> getProducts(List<ProductId> productIds) {
+        return productJpaRepository.findByProductIds(productIds.stream().map(i->i.getValue()).toList())
+                .stream().map(productDataAccessMapper::productEntityToProduct).toList();
+    }
 }

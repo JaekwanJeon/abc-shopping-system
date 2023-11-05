@@ -1,11 +1,10 @@
-package com.abc.shopping.product.service.domain.entity;
+package com.abc.shopping.product.service.domain.application.dto.get;
 
-
-import com.abc.shopping.domain.entity.AggregateRoot;
 import com.abc.shopping.domain.valueobject.ProductId;
 
-public class Product extends AggregateRoot<ProductId> {
+public class ProductDto {
 
+    private String id;
     private String name;
     private String company;
     private String description;
@@ -14,17 +13,12 @@ public class Product extends AggregateRoot<ProductId> {
 
     private Long price;
 
-    public Product(Builder builder) {
-        setId(builder.productId);
-        name = builder.name;
-        company = builder.company;
-        description = builder.description;
-        quantity = builder.quantity;
-        price = builder.price;
+    public String getId() {
+        return id;
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -67,18 +61,20 @@ public class Product extends AggregateRoot<ProductId> {
         this.price = price;
     }
 
-    public static final class Builder {
+    public static Builder builder() {
+        return new Builder();
+    }
 
-        private ProductId productId;
+    public static final class Builder {
+        private String id;
         private String name;
         private String company;
         private String description;
         private Long quantity;
-
         private Long price;
 
-        public Builder productId(ProductId val) {
-            productId = val;
+        public Builder id(String id) {
+            this.id = id;
             return this;
         }
 
@@ -107,8 +103,15 @@ public class Product extends AggregateRoot<ProductId> {
             return this;
         }
 
-        public Product build() {
-            return new Product(this);
+        public ProductDto build() {
+            ProductDto productDto = new ProductDto();
+            productDto.setId(id);
+            productDto.setName(name);
+            productDto.setCompany(company);
+            productDto.setDescription(description);
+            productDto.setQuantity(quantity);
+            productDto.setPrice(price);
+            return productDto;
         }
     }
 }

@@ -24,7 +24,6 @@ public class UserController {
 
         log.info("getUser : " + userId);
         UserResponse userResponse = userApplicationService.getUser(userId);
-        log.info("getUser : " + userResponse.getFailureMessages());
         return ResponseEntity.ok(userResponse);
     }
 }

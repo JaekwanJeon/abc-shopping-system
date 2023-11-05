@@ -4,10 +4,7 @@ import com.abc.shopping.domain.valueobject.UserId;
 import com.abc.shopping.domain.valueobject.DeliveryId;
 import com.abc.shopping.domain.valueobject.Money;
 import com.abc.shopping.domain.valueobject.ProductId;
-import com.abc.shopping.order.service.domain.application.dto.create.CreateOrderCommand;
-import com.abc.shopping.order.service.domain.application.dto.create.CreateOrderResponse;
-import com.abc.shopping.order.service.domain.application.dto.create.OrderAddress;
-import com.abc.shopping.order.service.domain.application.dto.create.OrderItem;
+import com.abc.shopping.order.service.domain.application.dto.create.*;
 import com.abc.shopping.order.service.domain.application.dto.track.TrackOrderResponse;
 import com.abc.shopping.order.service.domain.entity.Delivery;
 import com.abc.shopping.order.service.domain.entity.Order;
@@ -16,6 +13,7 @@ import com.abc.shopping.order.service.domain.entity.Product;
 import com.abc.shopping.order.service.domain.valueobject.StreetAddress;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -57,6 +55,17 @@ public class OrderDataMapper {
                 .failureMessages(order.getFailureMessages())
                 .build();
     }
+
+    public Product productDtoToProduct(ProductDto dto) {
+
+        return Product.builder()
+                .id(new ProductId(UUID.fromString(dto.getId())))
+                .name(dto.getName())
+                .price(new Money(new BigDecimal(dto.getPrice())))
+                .quantity(dto.getQuantity())
+                .build();
+    }
+
 
 //    public OrderPaymentEventPayload orderCreatedEventToOrderPaymentEventPayload(OrderCreatedEvent orderCreatedEvent) {
 //        return OrderPaymentEventPayload.builder()

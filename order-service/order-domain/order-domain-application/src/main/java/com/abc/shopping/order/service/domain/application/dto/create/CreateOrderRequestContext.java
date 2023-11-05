@@ -15,7 +15,7 @@ public class CreateOrderRequestContext {
     private CreateOrderCommand createOrderCommand;
     private UserDto user;
     private Order order;
-    private List<Product> productList;
+    private List<ProductDto> productList;
 
     public CreateOrderRequestContext(CreateOrderCommand createOrderCommand) {
         this.createOrderCommand = createOrderCommand;
