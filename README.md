@@ -38,15 +38,16 @@ create table product.product
     name   varchar not null,
     company   varchar not null,
     description varchar,
-    quantity  bigint
+    quantity  bigint,
+    price bigint
 );
 
 
-insert into product.product (id, name, company, description, quantity)
+insert into product.product (id, name, company, description, quantity, price)
 values
-        (gen_random_uuid(), '맛동산', '해태', '땅콩으로 버무린 튀김과자', 100),
-        (gen_random_uuid(), '초코파이', '오리온', '초코와 마시멜로의 조화', 100),
-        (gen_random_uuid(), '갤럭시 S23', '삼성', '삼성의 23년도 플래그쉽 폰', 100);
+        (gen_random_uuid(), '맛동산', '해태', '땅콩으로 버무린 튀김과자', 100, 1000),
+        (gen_random_uuid(), '초코파이', '오리온', '초코와 마시멜로의 조화', 100, 500),
+        (gen_random_uuid(), '갤럭시 S23', '삼성', '삼성의 23년도 플래그쉽 폰', 100, 1000000);
 ```
 
 ## 2. 서버 테스트
