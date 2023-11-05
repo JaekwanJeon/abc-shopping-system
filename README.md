@@ -38,15 +38,16 @@ create table product.product
     name   varchar not null,
     company   varchar not null,
     description varchar,
-    quantity  bigint
+    quantity  bigint,
+    price bigint
 );
 
 
-insert into product.product (id, name, company, description, quantity)
+insert into product.product (id, name, company, description, quantity, price)
 values
-        (gen_random_uuid(), '맛동산', '해태', '땅콩으로 버무린 튀김과자', 100),
-        (gen_random_uuid(), '초코파이', '오리온', '초코와 마시멜로의 조화', 100),
-        (gen_random_uuid(), '갤럭시 S23', '삼성', '삼성의 23년도 플래그쉽 폰', 100);
+        (gen_random_uuid(), '맛동산', '해태', '땅콩으로 버무린 튀김과자', 100, 1000),
+        (gen_random_uuid(), '초코파이', '오리온', '초코와 마시멜로의 조화', 100, 500),
+        (gen_random_uuid(), '갤럭시 S23', '삼성', '삼성의 23년도 플래그쉽 폰', 100, 1000000);
 ```
 
 ## 2. 서버 테스트
@@ -76,12 +77,42 @@ GET http://localhost:8088/product/8cecc491-f942-41fb-a144-d3b020a12689
     "name": "맛동산",
     "company": "해태",
     "description": "땅콩으로 버무린 튀김과자",
-    "quantity": 100
+    "quantity": 100,
+    "price": 1000
   },
   "failureMessages": null
 }
 ```
+### order service
+```
+POST http://localhost:8081/orders
+Content-Type: application/json
 
+{
+  "userId": "999fa683-765b-4fd2-8ef9-9a95c231e549",
+  "restaurantId": "d215b5f8-0249-4dc5-89a3-51fd148cfb45",
+  "address": {
+    "street": "street_1",
+    "postalCode": "1000AB",
+    "city": "Amsterdam"
+  },
+  "price": 200.00,
+  "items": [
+    {
+      "productId": "d215b5f8-0249-4dc5-89a3-51fd148cfb48",
+      "quantity": 1,
+      "price": 50.00,
+      "subTotal": 50.0
+    },
+    {
+      "productId": "d215b5f8-0249-4dc5-89a3-51fd148cfb48",
+      "quantity": 3,
+      "price": 50.00,
+      "subTotal": 150.0
+    }
+  ]
+}
+```
 
 
 
