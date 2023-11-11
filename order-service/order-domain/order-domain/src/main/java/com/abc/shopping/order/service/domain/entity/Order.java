@@ -6,10 +6,12 @@ import com.abc.shopping.order.service.domain.exception.OrderDomainException;
 import com.abc.shopping.order.service.domain.valueobject.OrderItemId;
 import com.abc.shopping.order.service.domain.valueobject.StreetAddress;
 import com.abc.shopping.order.service.domain.valueobject.TrackingId;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 public class Order extends AggregateRoot<OrderId> {
     private final UserId userId;
     private final DeliveryId deliveryId;
@@ -31,6 +33,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     public void validateOrder() {
+        log.info("Order : validateOrder");
         validateInitialOrder();
         validateTotalPrice();
         validateItemsPrice();
@@ -88,6 +91,7 @@ public class Order extends AggregateRoot<OrderId> {
     }
 
     private void validateItemsPrice() {
+        log.info("Order : validateItemsPrice");
         Money orderItemsTotal = items.stream().map(orderItem -> {
             validateItemPrice(orderItem);
             return orderItem.getSubTotal();
@@ -103,6 +107,9 @@ public class Order extends AggregateRoot<OrderId> {
         if (!orderItem.isPriceValid()) {
             throw new OrderDomainException("Order item price: " + orderItem.getPrice().getAmount() +
                     " is not valid for product " + orderItem.getProduct().getId().getValue());
+        } else {
+            log.info("validateItemPrice : Order item " + orderItem.getProduct().getName() +  " price: " + orderItem.getPrice().getAmount() +
+                    " is valid for product " + orderItem.getProduct().getId().getValue());
         }
     }
 

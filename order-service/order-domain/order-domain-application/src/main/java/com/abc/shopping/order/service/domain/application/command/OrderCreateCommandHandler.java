@@ -34,6 +34,8 @@ public class OrderCreateCommandHandler {
 
     @Transactional
     public Mono<CreateOrderResponse> createOrder(CreateOrderCommand createOrderCommand) {
+
+        log.info("createOrder");
         return orderCreateHelper.persistOrder(createOrderCommand).log()
                 .map(event->orderDataMapper.orderToCreateOrderResponse(
                     event.getOrder(), "Order created successfully")

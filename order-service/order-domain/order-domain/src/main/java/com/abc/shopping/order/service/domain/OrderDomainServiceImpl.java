@@ -21,6 +21,8 @@ public class OrderDomainServiceImpl implements OrderDomainService {
     @Override
     public OrderCreatedEvent validateAndInitiateOrder(Order order, List<Product> productList) {
         //validateDelivery(delivery);
+
+        log.info("OrderDomainServiceImpl : validateAndInitiateOrder");
         setOrderProductInformation(order, productList);
         order.validateOrder();
         order.initializeOrder();

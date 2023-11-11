@@ -3,13 +3,11 @@ package com.abc.shopping.order.service.domain.application.service;
 import com.abc.shopping.order.service.domain.OrderDomainService;
 import com.abc.shopping.order.service.domain.application.dto.create.CreateOrderCommand;
 import com.abc.shopping.order.service.domain.application.dto.create.CreateOrderRequestContext;
-import com.abc.shopping.order.service.domain.application.dto.create.OrderItem;
 import com.abc.shopping.order.service.domain.application.mapper.OrderDataMapper;
 import com.abc.shopping.order.service.domain.application.ports.output.repository.ProductReactiveClient;
 import com.abc.shopping.order.service.domain.application.ports.output.repository.UserReactiveClient;
 import com.abc.shopping.order.service.domain.application.ports.output.repository.DeliveryRepository;
 import com.abc.shopping.order.service.domain.application.ports.output.repository.OrderRepository;
-import com.abc.shopping.order.service.domain.entity.User;
 import com.abc.shopping.order.service.domain.entity.Delivery;
 import com.abc.shopping.order.service.domain.entity.Order;
 import com.abc.shopping.order.service.domain.event.OrderCreatedEvent;
@@ -17,18 +15,11 @@ import com.abc.shopping.order.service.domain.exception.OrderDomainException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.retry.Retry;
 
-import java.time.Duration;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import static com.abc.shopping.domain.constants.Common.UTC;
 
 @Slf4j
 @Component
@@ -62,11 +53,11 @@ public class OrderCreateHelper {
 
     @Transactional
     public Mono<OrderCreatedEvent> persistOrder(CreateOrderCommand createOrderCommand) {
-
+        log.info("persistOrder");
         return Mono.just(createOrderCommand).map(CreateOrderRequestContext::new)
                 .log()
-                .flatMap(this::checkCustomer)
-                .flatMap(this::checkProduct)
+                .flatMap(this::getUser)
+                .flatMap(this::getProduct)
                 .log()
                 .doOnNext(rc->rc.setOrder(orderDataMapper.createOrderCommandToOrder(createOrderCommand)))
                 .map(rc->orderDomainService.validateAndInitiateOrder(rc.getOrder(), rc.getProductList().stream().map(orderDataMapper::productDtoToProduct).toList()))
@@ -92,16 +83,18 @@ public class OrderCreateHelper {
         return optionalRestaurant.get();
     }
 
-    private Mono<CreateOrderRequestContext> checkCustomer(CreateOrderRequestContext rc) {
+    private Mono<CreateOrderRequestContext> getUser(CreateOrderRequestContext rc) {
+        log.info("getUser : rc.getCreateOrderCommand().getUserId()");
         return userReactiveClient.findUser(rc.getCreateOrderCommand().getUserId())
                 .log()
                 .doOnNext(rc::setUser)
                 .thenReturn(rc);
     }
 
-    private Mono<CreateOrderRequestContext> checkProduct(CreateOrderRequestContext rc) {
+    private Mono<CreateOrderRequestContext> getProduct(CreateOrderRequestContext rc) {
 
         List<UUID> productIds = rc.getCreateOrderCommand().getItems().stream().map(i->i.getProductId()).toList();
+        log.info("getProduct : " + productIds.toString());
         return productReactiveClient.findProducts(productIds).collectList()
                 .log()
                 .map(i->{

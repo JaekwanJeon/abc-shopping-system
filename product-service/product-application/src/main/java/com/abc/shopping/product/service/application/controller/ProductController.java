@@ -30,7 +30,7 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<ProductsResponse> getproducts(@RequestParam(value="params", required=true) List<UUID> productIds) {
-
+        log.info("getproducts : " + productIds.toString());
         ProductsResponse productsResponse = productApplicationService.getProducts(productIds);
         return ResponseEntity.ok(productsResponse);
     }
